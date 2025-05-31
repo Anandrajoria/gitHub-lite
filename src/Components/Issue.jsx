@@ -3,7 +3,7 @@ import githubV2Data from "../dummyData/githubV2.json";
 import "../styleSheet/Issue.css";
 
 const Issue = () => {
-  const [data, setdata] = useState(githubV2Data);
+  const [data] = useState(githubV2Data);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchNumber, setSearchNumber] = useState("");
 
