@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import githubV2Data from "../dummyData/githubV2.json";
 import "../styleSheet/Issue.css";
+import IssueChart from "./IssueChart";
 
 const Issue = () => {
   const [data] = useState(githubV2Data);
@@ -15,17 +16,14 @@ const Issue = () => {
         ? true
         : item.number.toString().startsWith(searchNumber)
     );
-    const newTotalPages=Math.ceil(filtered.length/itemPerPage)
-    if(currentPage>newTotalPages){
-      setCurrentPage(1)
+
+    const newTotalPages = Math.ceil(filtered.length / itemPerPage);
+    if (currentPage > newTotalPages) {
+      setCurrentPage(1);
     }
-  },[searchNumber,data,currentPage,itemPerPage]);
-
-
-
+  }, [searchNumber, data, currentPage, itemPerPage]);
 
   
-
   // Filter data by issue number
   const filteredData = data.filter((item) =>
     searchNumber === "" ? true : item.number.toString().startsWith(searchNumber)
@@ -91,6 +89,10 @@ const Issue = () => {
     <>
       <div className="issueContainer">
         <h2>GitHub Issues</h2>
+
+        <div className="chart-container">
+          <IssueChart data={data} />
+        </div>
 
         <input
           type="number"
