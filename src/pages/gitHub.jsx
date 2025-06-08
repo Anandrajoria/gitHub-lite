@@ -1,9 +1,14 @@
-import Issue from "../Components/Issue"
+import Issue from "../Components/Issue";
 
 function gitHub() {
   return (
-    <Issue/>
-  )
+    <>
+      <div className="container">
+        <h2>GitHub Repository Analysis</h2>
+        <Issue />
+      </div>
+    </>
+  );
 }
 
-export default gitHub
+export default gitHub;

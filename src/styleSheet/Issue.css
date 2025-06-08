@@ -63,8 +63,8 @@ input[type="number"] {
 
 /* Container */
 .issueContainer {
-  width: 95%;
-  max-width: 1200px;
+  /* width: 95%; */
+  /* max-width: 1200px; */
   margin: 30px auto;
   background: #f9f9f9;
   padding: 20px;
@@ -77,17 +77,29 @@ input[type="number"] {
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
+/* Table Container */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  margin: 20px 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 /* Table */
 table {
   width: 100%;
   border-collapse: collapse;
   border-radius: 10px;
   overflow: hidden;
+  min-width: 800px; /* Minimum width to prevent squishing */
 }
 
 thead {
   background-color: #333;
   color: #fff;
+  position: sticky;
+  top: 0;
 }
 
 th,
@@ -96,6 +108,15 @@ td {
   text-align: left;
   border-bottom: 1px solid #ddd;
   transition: background-color 0.2s ease;
+  white-space: nowrap; /* Prevent text wrapping */
+}
+
+/* Make specific columns wrap if needed */
+td:nth-child(3), /* Description column */
+td:nth-child(4) {
+  /* Labels column */
+  white-space: normal;
+  min-width: 200px;
 }
 
 tbody tr:hover {
@@ -149,24 +170,78 @@ input[type="number"]:focus {
   box-shadow: 0 2px 8px rgba(0, 123, 255, 0.4);
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .issueContainer {
-    padding: 10px;
-  }
-
-  input[type="number"] {
-    width: 100%;
-  }
-
-  table {
-    font-size: 14px;
+/* Responsive Styles */
+@media (max-width: 1024px) {
+  .table-container {
+    margin: 15px 0;
   }
 
   th,
   td {
-    padding: 10px;
+    padding: 10px 12px;
+    font-size: 14px;
   }
+
+  td:nth-child(3),
+  td:nth-child(4) {
+    min-width: 150px;
+  }
+}
+
+@media (max-width: 768px) {
+  .table-container {
+    margin: 10px 0;
+    border-radius: 6px;
+  }
+
+  th,
+  td {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+
+  td:nth-child(3),
+  td:nth-child(4) {
+    min-width: 120px;
+  }
+
+  input[type="number"] {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .pagination {
+    gap: 4px;
+  }
+
+  .pagination button {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+}
+
+/* Add smooth scrolling for the table container */
+.table-container {
+  scrollbar-width: thin;
+  scrollbar-color: #888 #f1f1f1;
+}
+
+.table-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.table-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 
 .chart-container {
@@ -175,10 +250,98 @@ input[type="number"]:focus {
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 }
 
-.issue-chart {
+.issue-chart,
+.team-issue-distribution {
   width: 100%;
   max-width: 1000px;
   margin: 0 auto;
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.team-issue-distribution {
+  background: white;
+  border-radius: 8px;
+  padding: 30px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 30px;
+  width: 100%;
+}
+
+.team-issue-distribution h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 30px;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.chart-item {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  min-width: 0;
+}
+
+.chart-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .charts-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .chart-item {
+    padding: 15px;
+  }
+
+  .team-issue-distribution {
+    padding: 20px;
+  }
+
+  .team-issue-distribution h2 {
+    font-size: 1.6rem;
+    margin-bottom: 25px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .charts-grid {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+
+  .chart-item {
+    padding: 15px;
+  }
+
+  .team-issue-distribution {
+    padding: 20px;
+  }
+
+  .team-issue-distribution h2 {
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+  }
 }
