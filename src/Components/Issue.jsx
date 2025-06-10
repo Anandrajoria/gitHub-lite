@@ -2,11 +2,14 @@ import { useState, useEffect } from "react";
 import githubV2Data from "../dummyData/githubV2.json";
 import "../styleSheet/Issue.css";
 import IssueChart from "./IssueChart";
+import IssueStats from "./IssueStats";
+import TeamIssueDistribution from "./TeamIssueDistribution";
 
 const Issue = () => {
   const [data] = useState(githubV2Data);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchNumber, setSearchNumber] = useState("");
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   const itemPerPage = 10;
   //! search engine optimization
@@ -23,7 +26,6 @@ const Issue = () => {
     }
   }, [searchNumber, data, currentPage, itemPerPage]);
 
-  
   // Filter data by issue number
   const filteredData = data.filter((item) =>
     searchNumber === "" ? true : item.number.toString().startsWith(searchNumber)
@@ -90,8 +92,11 @@ const Issue = () => {
       <div className="issueContainer">
         <h2>GitHub Issues</h2>
 
+        <IssueStats data={data} />
+
         <div className="chart-container">
           <IssueChart data={data} />
+          <TeamIssueDistribution data={data} />
         </div>
 
         <input
@@ -101,36 +106,45 @@ const Issue = () => {
           onChange={(e) => setSearchNumber(e.target.value)}
           style={{ marginBottom: "10px", padding: "5px" }}
         />
-        <table>
-          <thead>
-            <tr>
-              <th>Number</th>
-              <th>Title</th>
-              <th>Created at</th>
-              <th>Closed at</th>
-              <th>milstone</th>
-            </tr>
-          </thead>
-          <tbody>
-            {currentItem.length > 0 ? (
-              currentItem.map((item) => (
-                <tr key={item.id}>
-                  <td>{item.number}</td>
-                  <td>{item.title}</td>
-                  <td>{item.created_at}</td>
-                  <td>{item.closed_at || "Still open"}</td>
-                  <td>
-                    {item.milestone ? item.milestone.title : "No milestone"}
-                  </td>
-                </tr>
-              ))
-            ) : (
+        <input
+          type="number"
+          value={itemsPerPage}
+          onChange={(e) => setItemsPerPage(Number(e.target.value))}
+          min="1"
+          placeholder="Items per page"
+        />
+        <div className="table-container">
+          <table>
+            <thead>
               <tr>
-                <td colSpan="5">No results found.</td>
+                <th>Number</th>
+                <th>Title</th>
+                <th>Created at</th>
+                <th>Closed at</th>
+                <th>milstone</th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {currentItem.length > 0 ? (
+                currentItem.map((item) => (
+                  <tr key={item.id}>
+                    <td>{item.number}</td>
+                    <td>{item.title}</td>
+                    <td>{item.created_at}</td>
+                    <td>{item.closed_at || "Still open"}</td>
+                    <td>
+                      {item.milestone ? item.milestone.title : "No milestone"}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="5">No results found.</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
       <div className="pagination">
         {pageNumbers[0] > 1 && (
