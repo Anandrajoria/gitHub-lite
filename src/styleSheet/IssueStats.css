@@ -21,6 +21,11 @@
   animation: fadeInUp 0.5s ease forwards;
 }
 
+.dark .stat-box {
+  background-color: #2d2d2d;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
 .stat-box:nth-child(1) {
   animation-delay: 0.2s;
 }
@@ -53,6 +58,10 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
+.dark .stat-box:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
 .stat-box h3 {
   margin: 0;
   font-size: 1rem;
@@ -73,4 +82,8 @@
   color: #666;
   margin-top: 5px;
   display: block;
+}
+
+.dark .stat-box p3 {
+  color: #999;
 }

@@ -1,7 +1,10 @@
 import React from "react";
 import ReactApexChart from "react-apexcharts";
+import { useTheme } from "../context/ThemeContext";
 
 const IssueChart = ({ data }) => {
+  const { isDarkMode } = useTheme();
+
   // Calculate quarterly data
   const getQuarterData = () => {
     const quarters = {};
@@ -58,6 +61,8 @@ const IssueChart = ({ data }) => {
       toolbar: {
         show: true,
       },
+      background: isDarkMode ? "#2d2d2d" : "#ffffff",
+      foreColor: isDarkMode ? "#ffffff" : "#333333",
     },
     plotOptions: {
       bar: {
@@ -81,30 +86,56 @@ const IssueChart = ({ data }) => {
       }),
       title: {
         text: "Quarters",
+        style: {
+          color: isDarkMode ? "#ffffff" : "#333333",
+        },
+      },
+      labels: {
+        style: {
+          colors: isDarkMode ? "#ffffff" : "#333333",
+        },
       },
     },
     yaxis: {
       title: {
         text: "Number of Issues",
+        style: {
+          color: isDarkMode ? "#ffffff" : "#333333",
+        },
+      },
+      labels: {
+        style: {
+          colors: isDarkMode ? "#ffffff" : "#333333",
+        },
       },
     },
     title: {
       text: "GitHub Issues by Quarter",
       align: "center",
+      style: {
+        color: isDarkMode ? "#ffffff" : "#333333",
+      },
     },
     colors: ["#1f618d", "#1a252f", "#dcdde1"],
     legend: {
       position: "top",
+      labels: {
+        colors: isDarkMode ? "#ffffff" : "#333333",
+      },
     },
     fill: {
       opacity: 1,
     },
     tooltip: {
+      theme: isDarkMode ? "dark" : "light",
       y: {
         formatter: function (val) {
           return val + " issues";
         },
       },
+    },
+    grid: {
+      borderColor: isDarkMode ? "#404040" : "#e0e0e0",
     },
   };
 
@@ -123,7 +154,6 @@ const IssueChart = ({ data }) => {
     },
   ];
 
-
   return (
     <div className="issue-chart">
       <ReactApexChart
@@ -132,7 +162,6 @@ const IssueChart = ({ data }) => {
         type="bar"
         height={350}
       />
-      
     </div>
   );
 };

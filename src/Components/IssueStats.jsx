@@ -1,7 +1,10 @@
 import React from "react";
 import "../styleSheet/IssueStats.css";
+import { useTheme } from "../context/ThemeContext";
 
 const IssueStats = ({ data }) => {
+  const { isDarkMode } = useTheme();
+
   // Calculate statistics
   const totalOpenIssues = data.filter((item) => item.state === "open").length;
   const totalClosedIssues = data.filter(
@@ -38,6 +41,7 @@ const IssueStats = ({ data }) => {
       value: totalOpenIssues,
       color: "#2ea44f",
       bgColor: "rgba(46, 164, 79, 0.1)",
+      darkBgColor: "rgba(46, 164, 79, 0.2)",
       Text: "total active issues",
     },
     {
@@ -45,6 +49,7 @@ const IssueStats = ({ data }) => {
       value: totalClosedIssues,
       color: "#cb2431",
       bgColor: "rgba(203, 36, 49, 0.1)",
+      darkBgColor: "rgba(203, 36, 49, 0.2)",
       Text: "Resolved issues",
     },
     {
@@ -52,6 +57,7 @@ const IssueStats = ({ data }) => {
       value: `${Math.round(avgResolutionTime)} days`,
       color: "#0366d6",
       bgColor: "rgba(3, 102, 214, 0.1)",
+      darkBgColor: "rgba(3, 102, 214, 0.2)",
       Text: "average resolution time",
     },
     {
@@ -59,6 +65,7 @@ const IssueStats = ({ data }) => {
       value: `${invalidRequestPercentage}%`,
       color: "#d73a4a",
       bgColor: "rgba(215, 58, 74, 0.1)",
+      darkBgColor: "rgba(215, 58, 74, 0.2)",
       Text: "invalid requests",
     },
     {
@@ -66,19 +73,20 @@ const IssueStats = ({ data }) => {
       value: milestoneIssues,
       color: "#e36209",
       bgColor: "rgba(227, 98, 9, 0.1)",
+      darkBgColor: "rgba(227, 98, 9, 0.2)",
       Text: "milestone issues",
     },
   ];
 
   return (
-    <div className="issue-stats-container">
+    <div className={`issue-stats-container ${isDarkMode ? "dark" : ""}`}>
       {stats.map((stat, index) => (
         <div
           key={index}
           className="stat-box"
           style={{
             borderColor: stat.color,
-            backgroundColor: stat.bgColor,
+            backgroundColor: isDarkMode ? stat.darkBgColor : stat.bgColor,
           }}
         >
           <h3>{stat.title}</h3>

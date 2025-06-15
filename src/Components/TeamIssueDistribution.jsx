@@ -1,7 +1,10 @@
 import React from "react";
 import ReactApexChart from "react-apexcharts";
+import { useTheme } from "../context/ThemeContext";
 
 const TeamIssueDistribution = ({ data }) => {
+  const { isDarkMode } = useTheme();
+
   // Function to get monthly data for each issue type
   const getMonthlyData = () => {
     const months = {};
@@ -86,6 +89,8 @@ const TeamIssueDistribution = ({ data }) => {
       zoom: {
         enabled: true,
       },
+      background: isDarkMode ? "#2d2d2d" : "#ffffff",
+      foreColor: isDarkMode ? "#ffffff" : "#333333",
     },
     stroke: {
       curve: "smooth",
@@ -99,12 +104,14 @@ const TeamIssueDistribution = ({ data }) => {
         style: {
           fontSize: "14px",
           fontWeight: "bold",
+          color: isDarkMode ? "#ffffff" : "#333333",
         },
       },
       labels: {
         rotate: -45,
         style: {
           fontSize: "13px",
+          colors: isDarkMode ? "#ffffff" : "#333333",
         },
       },
     },
@@ -114,6 +121,12 @@ const TeamIssueDistribution = ({ data }) => {
         style: {
           fontSize: "14px",
           fontWeight: "bold",
+          color: isDarkMode ? "#ffffff" : "#333333",
+        },
+      },
+      labels: {
+        style: {
+          colors: isDarkMode ? "#ffffff" : "#333333",
         },
       },
       min: 0,
@@ -131,13 +144,13 @@ const TeamIssueDistribution = ({ data }) => {
           return val + " issues";
         },
       },
-      theme: "dark",
+      theme: isDarkMode ? "dark" : "light",
       style: {
         fontSize: "14px",
       },
     },
     grid: {
-      borderColor: "#f1f1f1",
+      borderColor: isDarkMode ? "#404040" : "#f1f1f1",
       strokeDashArray: 5,
       xaxis: {
         lines: {
@@ -158,6 +171,11 @@ const TeamIssueDistribution = ({ data }) => {
     },
     dataLabels: {
       enabled: false,
+    },
+    legend: {
+      labels: {
+        colors: isDarkMode ? "#ffffff" : "#333333",
+      },
     },
   };
 
@@ -189,11 +207,36 @@ const TeamIssueDistribution = ({ data }) => {
     },
   ];
 
+  // Filter out charts that have no data
+  const chartsWithData = charts.filter((chart) => {
+    const hasData = chart.data.some((value) => value > 0);
+    return hasData;
+  });
+
+  if (chartsWithData.length === 0) {
+    return (
+      <div className="team-issue-distribution">
+        <h2 className={isDarkMode ? "text-white" : "text-gray-800"}>
+          Issue Type Distribution Over Time
+        </h2>
+        <div
+          className={`no-data-message ${
+            isDarkMode ? "text-gray-400" : "text-gray-600"
+          }`}
+        >
+          No issue type data available for the selected time period.
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="team-issue-distribution">
-      <h2>Issue Type Distribution Over Time</h2>
+      <h2 className={isDarkMode ? "text-white" : "text-gray-800"}>
+        Issue Type Distribution Over Time
+      </h2>
       <div className="charts-grid">
-        {charts.map((chart, index) => {
+        {chartsWithData.map((chart, index) => {
           // Filter out months with zero values
           const filteredData = chart.data
             .map((value, i) => ({
@@ -224,6 +267,7 @@ const TeamIssueDistribution = ({ data }) => {
                     style: {
                       fontSize: "18px",
                       fontWeight: "bold",
+                      color: isDarkMode ? "#ffffff" : "#333333",
                     },
                   },
                   colors: [chart.color],
@@ -235,7 +279,7 @@ const TeamIssueDistribution = ({ data }) => {
                   },
                 ]}
                 type="line"
-                height={400}
+                height={350}
               />
             </div>
           );

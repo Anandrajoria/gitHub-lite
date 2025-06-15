@@ -1,15 +1,46 @@
 import { useState, useEffect } from "react";
+import "../Components/Sidebar.css";
 
 const Sidebar = () => {
   const [activeSection, setActiveSection] = useState("overview");
 
   const sections = [
-    { id: "overview", label: "Issue Overview", icon: "📊" },
-    { id: "activity", label: "Issue Activity", icon: "📈" },
-    { id: "team", label: "Team Distribution", icon: "👥" },
-    { id: "library", label: "By Library Version", icon: "📚" },
-    { id: "component", label: "Component Issue", icon: "🔧" },
-    { id: "invalid", label: "Invalid Request", icon: "⚠️" },
+    {
+      id: "overview",
+      label: "Issue Overview",
+      icon: "📊",
+      description: "GitHub Issues",
+    },
+    {
+      id: "activity",
+      label: "Issue Activity",
+      icon: "📈",
+      description: "GitHub Issues by Quarter",
+    },
+    {
+      id: "team",
+      label: "Team Distribution",
+      icon: "👥",
+      description: "Issue Type Distribution Over Time",
+    },
+    {
+      id: "library",
+      label: "By Library Version",
+      icon: "📚",
+      description: "Library Version Analysis",
+    },
+    {
+      id: "component",
+      label: "Component Issue",
+      icon: "🔧",
+      description: "Component-wise Issues",
+    },
+    {
+      id: "invalid",
+      label: "Invalid Request",
+      icon: "⚠️",
+      description: "Invalid Request Analysis",
+    },
   ];
 
   useEffect(() => {
@@ -44,28 +75,28 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="sticky top-4">
-      <nav className="bg-white shadow-sm">
-        <div className="divide-y divide-gray-100">
-          {sections.map((section) => (
-            <button
-              key={section.id}
-              onClick={() => scrollToSection(section.id)}
-              className={`w-full text-left px-3 py-2.5 transition-all duration-300 flex items-center gap-3
-                ${
-                  activeSection === section.id
-                    ? "bg-blue-50 text-github-blue font-medium"
-                    : "text-github-gray hover:bg-gray-50 hover:text-github-blue"
-                }`}
-            >
+    <div className="sidebar">
+      <nav className="sidebar-nav">
+        {sections.map((section) => (
+          <button
+            key={section.id}
+            onClick={() => scrollToSection(section.id)}
+            className={`sidebar-item ${
+              activeSection === section.id ? "active" : ""
+            }`}
+          >
+            <div className="flex items-center gap-3">
               <span className="text-lg">{section.icon}</span>
-              <span className="text-sm">{section.label}</span>
+              <span className="text-sm font-medium">{section.label}</span>
               {activeSection === section.id && (
                 <span className="ml-auto w-1.5 h-1.5 rounded-full bg-github-blue animate-pulse" />
               )}
-            </button>
-          ))}
-        </div>
+            </div>
+            <span className="text-xs text-gray-500 pl-8">
+              {section.description}
+            </span>
+          </button>
+        ))}
       </nav>
     </div>
   );

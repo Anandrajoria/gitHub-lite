@@ -296,6 +296,64 @@ input[type="number"]:focus {
   border-radius: 12px;
   padding: 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s;
+  min-width: 0;
+}
+
+.dark .chart-item {
+  background: #23272f;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.chart-item:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+}
+
+.dark .chart-item:hover {
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
+}
+
+.team-issue-distribution,
+.issue-chart {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+.dark .team-issue-distribution,
+.dark .issue-chart {
+  background-color: #23272f;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.team-issue-distribution h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 30px;
+  font-size: 1.8rem;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.dark .team-issue-distribution h2 {
+  color: #e5e5e5;
+}
+
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.chart-item {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   min-width: 0;
 }
@@ -345,4 +403,15 @@ input[type="number"]:focus {
     font-size: 1.4rem;
     margin-bottom: 20px;
   }
+}
+
+.team-issue-distribution .no-data-message {
+  text-align: center;
+  padding: 40px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  color: #666;
+  font-size: 1.1rem;
+  margin: 20px 0;
+  border: 1px dashed #ccc;
 }
